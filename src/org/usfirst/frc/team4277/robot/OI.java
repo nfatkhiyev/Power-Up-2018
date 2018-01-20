@@ -7,11 +7,20 @@
 
 package org.usfirst.frc.team4277.robot;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	
+	public static Joystick driveStick = new Joystick(0);
+	public static JoystickButton dSTrigger = new JoystickButton(driveStick,1);
+	public static ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+	
 	//// CREATING BUTTONS
 	// One type of button is a joystick button which is any button on a
 	//// joystick.
@@ -39,4 +48,13 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
+	public static Joystick getdriveStick(){
+		return driveStick;
+	}
+	public static boolean getdSTrigger() {
+		return dSTrigger.get();
+	}
+	public static double getGyro() {
+		return gyro.getAngle();
+	}
 }
