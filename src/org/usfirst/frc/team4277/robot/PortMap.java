@@ -14,8 +14,6 @@ public interface PortMap {
 	
 		//  Analog
 	// ex. public final static int JOE_DOE_SENSOR= 13;
-	public final static int TILTER_ANALOG = 3;
-	public final static int Analoginput = 2;
 	
 		// Laptop USB Ports
 	// ex. public final static int JOE_DOE_SENSOR= 13;

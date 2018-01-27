@@ -24,8 +24,7 @@ import org.usfirst.frc.team4277.robot.subsystems.MecanumDrive;
  * This is a test
  */
 public class Robot extends TimedRobot {
-	public static final MecanumDrive kExampleSubsystem
-			= new MecanumDrive(0,1,2,3);
+
 	public static OI m_oi;
 
 	Command m_autonomousCommand;
@@ -37,6 +36,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		System.out.println("Rpbpt int");
 		m_oi = new OI();
 		m_chooser.addDefault("Default Auto", new Drive());
 		// chooser.addObject("My Auto", new MyAutoCommand());

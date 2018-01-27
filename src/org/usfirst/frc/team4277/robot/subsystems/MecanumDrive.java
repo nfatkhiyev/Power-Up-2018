@@ -30,7 +30,7 @@ public class MecanumDrive extends Subsystem {
 	double FRValue,BRValue,FLValue,BLValue;
 	
 	public MecanumDrive(int FR, int FL, int BR, int BL){
-		 
+		System.out.println("MecanumDrive create");
 			//motor controller assignments
 			FrontRight = new PWMTalonSRX(FR);
 			FrontLeft = new PWMTalonSRX(FL);
