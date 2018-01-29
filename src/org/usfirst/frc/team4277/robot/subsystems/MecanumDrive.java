@@ -10,7 +10,8 @@ package org.usfirst.frc.team4277.robot.subsystems;
 import org.usfirst.frc.team4277.robot.commands.*;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PWMTalonSRX;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -22,30 +23,26 @@ public class MecanumDrive extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	static PWMTalonSRX FrontRight;
-	static PWMTalonSRX FrontLeft;
-	static PWMTalonSRX BackRight;
-	static PWMTalonSRX BackLeft;
+	static TalonSRX FrontRight;
+	static TalonSRX FrontLeft;
+	static TalonSRX BackRight;
+	static TalonSRX BackLeft;
 	
 	double FRValue,BRValue,FLValue,BLValue;
 	
 	public MecanumDrive(int FR, int FL, int BR, int BL){
 		System.out.println("MecanumDrive create");
 			//motor controller assignments
-			FrontRight = new PWMTalonSRX(FR);
-			FrontLeft = new PWMTalonSRX(FL);
-			BackRight = new PWMTalonSRX(BR);
-			BackLeft = new PWMTalonSRX(BL);
+			FrontRight = new TalonSRX(FR);
+			FrontLeft = new TalonSRX(FL);
+			BackRight = new TalonSRX(BR);
+			BackLeft = new TalonSRX(BL);
 			BackLeft.setInverted(true);
 			FrontLeft.setInverted(true);
-			FRValue = FrontRight.getSpeed();
-			BRValue = BackRight.getSpeed();
-			BLValue = BackLeft.getSpeed();
-			FLValue = FrontLeft.getSpeed();
-			FrontRight.setSafetyEnabled(true);
-			FrontLeft.setSafetyEnabled(true);
-			BackRight.setSafetyEnabled(true);
-			BackLeft.setSafetyEnabled(true);
+			FRValue = FrontRight.getMotorOutputPercent();
+			BRValue = BackRight.getMotorOutputPercent();
+			BLValue = BackLeft.getMotorOutputPercent();
+			FLValue = FrontLeft.getMotorOutputPercent();
 		}
 
     public void initDefaultCommand() {
@@ -79,10 +76,10 @@ public class MecanumDrive extends Subsystem {
 		if (Math.abs(bLeft) < 0.05) bLeft = 0;
 		if (Math.abs(bRight) < 0.05) bRight = 0;
 		
-		FrontLeft.set(fLeft);
-		FrontRight.set(fRight);
-		BackLeft.set(bLeft);
-		BackRight.set(bRight);
+		FrontLeft.set(ControlMode.PercentOutput,fLeft);
+		FrontRight.set(ControlMode.PercentOutput,fRight);
+		BackLeft.set(ControlMode.PercentOutput,bLeft);
+		BackRight.set(ControlMode.PercentOutput,bRight);
 	}
 	
 	public static void mechJoystickGyroDrive(Joystick stick, Double gyro) {//hopefully we can get a navX gyro for precise data(IM)
@@ -110,10 +107,10 @@ public class MecanumDrive extends Subsystem {
 		if (Math.abs(bLeft) < 0.05) bLeft = 0;
 		if (Math.abs(bRight) < 0.05) bRight = 0;
 		
-		FrontLeft.set(fLeft);
-		FrontRight.set(fRight);
-		BackLeft.set(bLeft);
-		BackRight.set(bRight);
+		FrontLeft.set(ControlMode.PercentOutput,fLeft);
+		FrontRight.set(ControlMode.PercentOutput,fRight);
+		BackLeft.set(ControlMode.PercentOutput,bLeft);
+		BackRight.set(ControlMode.PercentOutput,bRight);
 	}
 	
 	public void mechDirectionalDrive (Double angle, Double speed, long durration) {
@@ -133,24 +130,24 @@ public class MecanumDrive extends Subsystem {
 		
 		//Drives the motors
 		while (RobotController.getFPGATime() - initTime <= millisecondsToRun){
-			FrontRight.set((yVal - xVal)/1.45);
-			BackLeft.set((yVal - xVal)/1.45);
-			FrontLeft.set((yVal + xVal)/1.45);
-			BackRight.set((yVal + xVal)/1.45);
+			FrontRight.set(ControlMode.PercentOutput,(yVal - xVal)/1.45);
+			BackLeft.set(ControlMode.PercentOutput,(yVal - xVal)/1.45);
+			FrontLeft.set(ControlMode.PercentOutput,(yVal + xVal)/1.45);
+			BackRight.set(ControlMode.PercentOutput,(yVal + xVal)/1.45);
 		}
 		
 	}
 	public void mechSpinRight (Double speed){
-		FrontRight.set(speed);
-		BackLeft.set(-speed);
-		FrontLeft.set(-speed);
-		BackRight.set(speed);
+		FrontRight.set(ControlMode.PercentOutput,speed);
+		BackLeft.set(ControlMode.PercentOutput,-speed);
+		FrontLeft.set(ControlMode.PercentOutput,-speed);
+		BackRight.set(ControlMode.PercentOutput,speed);
 	}
 	public void mechSpinLeft (Double speed){
-		FrontRight.set(-speed);
-		BackLeft.set(speed);
-		FrontLeft.set(speed);
-		BackRight.set(-speed);
+		FrontRight.set(ControlMode.PercentOutput,ControlMode.PercentOutput,-speed);
+		BackLeft.set(ControlMode.PercentOutput,speed);
+		FrontLeft.set(ControlMode.PercentOutput,speed);
+		BackRight.set(ControlMode.PercentOutput,-speed);
 	}
 	
 	public double getFRValue(){
